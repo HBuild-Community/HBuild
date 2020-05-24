@@ -17,5 +17,8 @@ export class PublicacionPage implements OnInit {
     this.modalCtrl.dismiss();
   }
 
+  mostrarPop(){
+    
+  }
   
 }

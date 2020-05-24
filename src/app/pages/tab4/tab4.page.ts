@@ -1,3 +1,4 @@
+import { CacheUser } from './../../cache/cache-user';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 
@@ -10,11 +11,14 @@ import { User } from '../../models/user';
 export class Tab4Page implements OnInit {
 
   usuario: User;
+  user:User;
   cover: string;
   show: boolean = false;
   slideOpts: {};
 
-  constructor() { }
+  constructor() {
+     this.user = CacheUser.user;
+   }
 
   ngOnInit() {
     setTimeout( () => {

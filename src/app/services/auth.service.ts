@@ -28,6 +28,10 @@ export class AuthService {
     return this.firestore.doc<User>(`users/${user.uid}`).set(user);
   }
 
+  updateUser(user:User):Promise<void>{
+    return this.firestore.doc<User>(`users/${user.uid}`).update(user);
+  }
+
   signIn(email:string,password:string){
     return this.fireauth.signInWithEmailAndPassword(email,password);
   }

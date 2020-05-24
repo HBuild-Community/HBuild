@@ -1,8 +1,12 @@
+import { Publicaciones } from './../../models/publicaciones';
+import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
 import { PopoverController, ModalController } from '@ionic/angular';
 import { PopTab1Component } from 'src/app/components/pop-tab1/pop-tab1.component';
 import { PublicacionPage } from '../publicacion/publicacion.page';
 import { PublicacionEditarPage } from '../publicacion-editar/publicacion-editar.page';
+
+
 @Component({
   selector: 'app-tab1',
   templateUrl: './tab1.page.html',
@@ -10,13 +14,17 @@ import { PublicacionEditarPage } from '../publicacion-editar/publicacion-editar.
 })
 export class Tab1Page implements OnInit {
 
-  constructor(private popCtrl: PopoverController,
-    private modalCtrl: ModalController
+  publicaciones = [];
+
+  constructor(
+    private popCtrl: PopoverController,
+    private modalCtrl: ModalController,
+    private publicacionesService:PublicacionesService,
 
   ) { }
 
   ngOnInit() {
-
+    this.publicacionesService.getPublicaciones();
   }
 
   async mostrarPop(evento) {

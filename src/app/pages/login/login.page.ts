@@ -1,9 +1,11 @@
+import { CacheUser } from './../../cache/cache-user';
 import { Toast } from './../../models/toast';
 import { AuthService } from './../../services/auth.service';
 import { FormBuilder,Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -49,21 +51,29 @@ export class LoginPage implements OnInit {
   }
 
   onLogin(){
-    this.router.navigate(['/menu']);
+    
     let correo = this.loginForm.value.correo;
     let password = this.loginForm.value.password;
+
     this.authService.signIn(correo,password)
     .then(result =>{
-      console.log(result);
+
       let uid = result.user.uid;
+
       this.authService.getCurrentUser(uid)
-      .subscribe(result =>{
-        console.log(result);
-        this.alerts.toast('Exito','Ha iniciado sesión con exito');
+      .subscribe(user =>{
+        CacheUser.user = user;
+        if (user.apellidos != undefined){
+          this.router.navigate(['/menu']); 
+          this.alerts.toast('Exito','Ha iniciado sesión con exito');
+        } 
+        else this.router.navigate(['/first-login']);
       });
     })
     .catch(error =>{
+
       console.log(error);
+
     });
   }
 }

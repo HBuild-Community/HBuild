@@ -7,28 +7,28 @@
             </div>
             <form>
                 <div class="ion-margin-bottom">
-                    <ion-input required type="text" class="ion-padding-start" placeholder="Nombre"></ion-input>
+                    <ion-input [(ngModel)]="nombre" name="nombre" required type="text" class="ion-padding-start" placeholder="Nombre"></ion-input>
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input required type="text" class="ion-padding-start" placeholder="Apellidos"></ion-input>
+                    <ion-input [(ngModel)]="apellidos" name="apellidos" required type="text" class="ion-padding-start" placeholder="Apellidos"></ion-input>
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input required type="text" class="ion-padding-start" placeholder="Telefono"></ion-input>
+                    <ion-input [(ngModel)]="telefono" name="telefono" required type="text" class="ion-padding-start" placeholder="Telefono"></ion-input>
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-input required type="text" class="ion-padding-start" placeholder="Ciudad, Estado, País"></ion-input>
+                    <ion-input [(ngModel)]="locacion" name="locacion" required type="text" class="ion-padding-start" placeholder="Ciudad, Estado, País"></ion-input>
                 </div>
                 <div class="ion-margin-bottom">
                     <ion-item>
                         <ion-label>Actividad</ion-label>
-                        <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+                        <ion-select [(ngModel)]="oficio" name="oficio" value="brown" okText="Okay" cancelText="Dismiss">
                             <ion-select-option value="arquitecto">Arquitecto</ion-select-option>
                             <ion-select-option value="civil">Ing. Civil</ion-select-option>
                             <ion-select-option value="albañil">Albañil</ion-select-option>
                         </ion-select>
                     </ion-item>
                 </div>
-                <ion-button type="submit" expand="full" class="ion-margin-bottom">Completar</ion-button>
+                <ion-button (click)="onFirstLogin()" type="submit" expand="full" class="ion-margin-bottom">Completar</ion-button>
             </form>
         </div>
     </div>
