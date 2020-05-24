@@ -1,3 +1,4 @@
+  
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,11 +14,13 @@ import { PublicacionEditarPageModule } from '../publicacion-editar/publicacion-e
 import { ComponentsModule } from 'src/app/components/components.module';
 import { Tab1PageModule } from '../tab1/tab1.module';
 import { Tab1Page } from '../tab1/tab1.page';
+import { InicioPageModule } from '../inicio/inicio.module';
+import { PersonasPageModule } from '../personas/personas.module';
 
 @NgModule({
   entryComponents:[
-PopTab1Component,
-PublicacionEditarPage,
+  PopTab1Component,
+  PublicacionEditarPage
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,9 @@ PublicacionEditarPage,
     Tab2PageRoutingModule,
     PublicacionEditarPageModule,
     ComponentsModule,
-    Tab1PageModule
+    Tab1PageModule,
+    InicioPageModule,
+    PersonasPageModule
   ],
   declarations: [Tab2Page]
 })
