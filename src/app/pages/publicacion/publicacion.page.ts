@@ -46,15 +46,16 @@ export class PublicacionPage implements OnInit {
   obtenerTodosComentarios(uid){
     this.publicacionesService.getCurrentPublicacion(uid)
     .subscribe((querySnapshot) => {
+      this.mapComentarios.clear();
       querySnapshot.forEach((doc) =>{
-        this.publicacionesService.getCurrentUser(doc.data().uid)
+        this.publicacionesService.getCurrentUser(doc.payload.doc.data().uid)
         .subscribe(response => {
           let publicacion = {
             uid:'',
             data:{},
           }
-          publicacion.uid = doc.id;
-          publicacion.data = doc.data();
+          publicacion.uid = doc.payload.doc.id;
+          publicacion.data = doc.payload.doc.data();
           this.mapComentarios.set(publicacion,response);
           console.log(this.mapComentarios);
           console.log(publicacion);
@@ -79,7 +80,7 @@ export class PublicacionPage implements OnInit {
     }
     this.publicacionesService.insertComentario(uidPub,comentario)
     .then(response => {
-      console.log(response);
+      this.inputComentario = '';
     });
   }
   

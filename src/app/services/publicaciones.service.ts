@@ -1,5 +1,5 @@
+import { Publicaciones } from 'src/app/models/publicaciones';
 import { User } from './../models/user';
-import { Publicaciones } from './../models/publicaciones';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -83,12 +83,13 @@ export class PublicacionesService {
     return mapita;
   } */
 
-  obtenerTodasPublicaciones():Observable<any>{
-    return this.firestore.collection('publicacion').get();
+  async obtenerTodasPublicaciones(){
+    const snapshot = await this.firestore.collection<Publicaciones>('publicacion').snapshotChanges();
+    return snapshot;
   }
 
   getCurrentPublicacion(uid:string){
-    return this.firestore.doc(`publicacion/${uid}`).collection('comentarios').get();
+    return this.firestore.doc(`publicacion/${uid}`).collection('comentarios').snapshotChanges();
   }
 
   insertComentario(uidPub,comentario){

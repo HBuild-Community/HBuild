@@ -71,6 +71,7 @@ export class CrearPage implements OnInit {
   }
 
   insertarConImagen(url, date){
+
     this.publicacionesService.insertImage(this.images)
     .then(response =>{
       url = response;
@@ -86,6 +87,7 @@ export class CrearPage implements OnInit {
       .insertPublicacion(publicacion)
       .then(response => {
         console.log(response);
+        this.alert.toast('Exito','Publicación creada correctamente');
       });
     });
   }
@@ -102,6 +104,7 @@ export class CrearPage implements OnInit {
       .insertPublicacion(publicacion)
       .then(response => {
         console.log(response);
+        this.alert.toast('Exito','Publicación creada correctamente');
       });
   }
 

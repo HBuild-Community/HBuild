@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Publicaciones } from './../../models/publicaciones';
 import { CacheUser } from './../../cache/cache-user';
 import { PublicacionesService } from './../../services/publicaciones.service';
@@ -5,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Plugins } from 'src/app/models/plugins';
 import { PopoverController, ModalController, ActionSheetController } from '@ionic/angular';
 import { PublicacionPage } from '../publicacion/publicacion.page';
+
 
 @Component({
   selector: 'app-inicio',
@@ -31,16 +33,19 @@ export class InicioPage implements OnInit {
 
   obtenerTodasPublicaciones(){
     this.publicacionesService.obtenerTodasPublicaciones()
-    .subscribe((querySnapshot) => {
-      querySnapshot.forEach((doc) =>{
-        this.publicacionesService.getCurrentUser(doc.data().uid)
+    .then(querySnapshot => {
+      
+      querySnapshot.forEach(Ndoc => {
+        this.mapPublicaciones.clear();
+        Ndoc.forEach(doc => {
+          this.publicacionesService.getCurrentUser(doc.payload.doc.data().uid)
         .subscribe(response => {
           let publicacion = {
             uid:'',
             data:{},
           }
-          publicacion.uid = doc.id;
-          publicacion.data = doc.data();
+          publicacion.uid = doc.payload.doc.id;
+          publicacion.data = doc.payload.doc.data();
           this.mapPublicaciones.set(publicacion,response);
           console.log(this.mapPublicaciones);
           console.log(publicacion);
@@ -48,8 +53,10 @@ export class InicioPage implements OnInit {
             console.log(key, value);
         }
         });
+        });
       });
     });
+    
   }
 
   ngOnInit() {
