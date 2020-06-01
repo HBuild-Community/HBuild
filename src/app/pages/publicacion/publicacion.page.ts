@@ -1,5 +1,11 @@
+import { CacheUser } from './../../cache/cache-user';
+import { Comentario } from './../../models/comentario';
+import { Toast } from './../../models/toast';
+import { Observable } from 'rxjs';
+import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-publicacion',
@@ -8,7 +14,23 @@ import { ModalController } from '@ionic/angular';
 })
 export class PublicacionPage implements OnInit {
 
-  constructor(private modalCtrl: ModalController) { }
+  publicacion;
+  mapComentarios = new Map();
+  inputComentario = '';
+  
+
+  constructor(
+    private modalCtrl: ModalController,
+    private navParams:NavParams,
+    private publicacionesService:PublicacionesService,
+    private alert:Toast,
+    ) 
+    {
+      this.publicacion = this.navParams.get('publicacion');
+      console.log(this.publicacion.key.uid);
+      this.obtenerTodosComentarios(this.publicacion.key.uid);
+      console.log(this.mapComentarios);
+    }
 
   ngOnInit() {
   }
@@ -19,6 +41,46 @@ export class PublicacionPage implements OnInit {
 
   mostrarPop(){
     
+  }
+
+  obtenerTodosComentarios(uid){
+    this.publicacionesService.getCurrentPublicacion(uid)
+    .subscribe((querySnapshot) => {
+      querySnapshot.forEach((doc) =>{
+        this.publicacionesService.getCurrentUser(doc.data().uid)
+        .subscribe(response => {
+          let publicacion = {
+            uid:'',
+            data:{},
+          }
+          publicacion.uid = doc.id;
+          publicacion.data = doc.data();
+          this.mapComentarios.set(publicacion,response);
+          console.log(this.mapComentarios);
+          console.log(publicacion);
+          for (let [key, value] of this.mapComentarios) {
+            console.log(key, value);
+        }
+        });
+      });
+    });
+  }
+
+  insertComentario(uidPub){
+    if(this.inputComentario == undefined || this.inputComentario == ''){
+      this.alert.showAlert('Error','Tiene que insertar un comentario');
+      return;
+    }
+
+    let comentario:Comentario = {
+      comentario:this.inputComentario,
+      fecha:new Date(),
+      uid:CacheUser.user.uid,
+    }
+    this.publicacionesService.insertComentario(uidPub,comentario)
+    .then(response => {
+      console.log(response);
+    });
   }
   
 }

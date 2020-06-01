@@ -27,7 +27,7 @@ import { ComponentsModule } from './components/components.module';
 //Plugins
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx'
-
+import { Camera } from '@ionic-native/camera/ngx';
 
 import {AutosizeModule} from 'ngx-autosize';
 
@@ -52,7 +52,8 @@ import {AutosizeModule} from 'ngx-autosize';
     Toast,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImagePicker,
-    File
+    File,
+    Camera
   ],
   bootstrap: [AppComponent]
 })

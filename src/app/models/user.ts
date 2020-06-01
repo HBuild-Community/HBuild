@@ -7,6 +7,7 @@ export interface User{
     telefono?: string,
     locacion?: string,
     imagen?: string,
+    imagenPortada?:string,
     oficio?: string,
     descripcion?:string,
 }

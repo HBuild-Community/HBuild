@@ -1,11 +1,12 @@
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Toast } from './../../models/toast';
 import { CacheUser } from './../../cache/cache-user';
 import { PublicacionesService } from './../../services/publicaciones.service';
 import { Component, OnInit } from '@angular/core';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx'
 import { Publicaciones } from 'src/app/models/publicaciones';
-
-
+import { Timestamp } from '@firebase/firestore-types';
 
 @Component({
   selector: 'app-crear',
@@ -15,51 +16,93 @@ import { Publicaciones } from 'src/app/models/publicaciones';
 export class CrearPage implements OnInit {
 
   images: any;
-
+  imagen;
 
   options: ImagePickerOptions = {
-    maximumImagesCount: 1
+    maximumImagesCount: 1,
+    quality:100,
+    
   };
 
   constructor(
     public imagePicker: ImagePicker,
     public file: File,
     private publicacionesService:PublicacionesService,
+    private alert:Toast,
+    private camera:Camera,
   ) { }
 
   ngOnInit() {
   } 
 
-  PickMultipleImages(){
-    this.imagePicker.getPictures(this.options).then(
-      (results) => {
-        for(var interval = 0; interval < results.length; interval++){
-          let fileName = results[interval].substring(results[interval].lastIndexOf('/')+1);
-          let path = results[interval].substring(0, results[interval].lastIndexOf('/')+1);
-          this.file.readAsDataURL(path, fileName).then(
-            (base64string) => {
-              this.images = base64string;
-            }
-          );
-        }
-      }
-    )
+  async addImage(){
+    const libraryImage = await this.openLibrary();
+    this.images = 'data:image/jpg;base64,'+libraryImage;
   }
+
+  async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
+  }
+
+  
   titulo:'';
   descripcion:'';
   insertPublicacion(){
-    console.log(this.titulo);
-    console.log(this.descripcion);
-    let publicacion: Publicaciones = {
-      uid: CacheUser.user.uid,
-      titulo: this.titulo,
-      descripcion: this.descripcion,
+    let pubUid;
+    let url;
+    let date = new Date();
+    if(this.images != undefined){
+      this.insertarConImagen(url,date);
     }
-    this.publicacionesService
-    .insertPublicacion(publicacion)
-    .then(response => {
+    else{
+      console.log('Sin');
+      this.insertarSinImagen(date);
+    }
+    
+  }
+
+  insertarConImagen(url, date){
+    this.publicacionesService.insertImage(this.images)
+    .then(response =>{
+      url = response;
       console.log(response);
+      let publicacion: Publicaciones = {
+        uid: CacheUser.user.uid,
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        fecha: date,
+        urlImagen:url,
+      }
+      this.publicacionesService
+      .insertPublicacion(publicacion)
+      .then(response => {
+        console.log(response);
+      });
     });
+  }
+
+  insertarSinImagen(date){
+      let publicacion: Publicaciones = {
+        uid: CacheUser.user.uid,
+        titulo: this.titulo,
+        descripcion: this.descripcion,
+        fecha: date,
+        urlImagen:'',
+      }
+      this.publicacionesService
+      .insertPublicacion(publicacion)
+      .then(response => {
+        console.log(response);
+      });
   }
 
 }

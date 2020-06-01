@@ -92,6 +92,8 @@ export class RegisterPage implements OnInit {
       password: this.registerForm.value.password,
       nombre:this.registerForm.value.nombre,
       imagen:'http://geaconcept.com/wp-content/uploads/2018/08/default-user-img-300x300.jpg',
+      imagenPortada: 'http://geaconcept.com/wp-content/uploads/2018/08/default-user-img-300x300.jpg',
+      descripcion:'Sin descripción',
     }
     this.authService.registerAuthUser(user)
     .then(result =>{

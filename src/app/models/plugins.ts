@@ -37,7 +37,7 @@ export class Plugins {
           text: 'Editar',
           icon: 'create',
           handler: () => {
-            this.openModal(PublicacionEditarPage);
+            //this.openModal(PublicacionEditarPage);
           }
         }, {
           text: 'Eliminar',
@@ -89,10 +89,12 @@ export class Plugins {
     this.toast.present();
   }
 
-  async openModal(component) {
+  async openModal(component, publicacion) {
     const modal = await this.modalCtrl.create({
       component,
-      componentProps: {},
+      componentProps: {
+        publicacion,
+      },
     });
 
     await modal.present();

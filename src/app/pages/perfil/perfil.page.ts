@@ -1,3 +1,4 @@
+import { CacheUser } from './../../cache/cache-user';
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
 
@@ -11,12 +12,15 @@ export class PerfilPage implements OnInit {
   usuario: User;
   cover: string;
   show: boolean = false;
+  user:User;
 
   @Input() have: string;
 
   slideOpts: {};
 
-  constructor() { }
+  constructor() {
+    this.user = CacheUser.user;
+   }
 
   ngOnInit() {
 

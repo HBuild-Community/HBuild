@@ -63,6 +63,7 @@ export class LoginPage implements OnInit {
       this.authService.getCurrentUser(uid)
       .subscribe(user =>{
         CacheUser.user = user;
+        console.log(CacheUser.user);
         if (user.apellidos != undefined){
           this.router.navigate(['/menu']); 
           this.alerts.toast('Exito','Ha iniciado sesión con exito');
