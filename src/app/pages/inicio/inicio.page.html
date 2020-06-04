@@ -32,11 +32,12 @@
         </div>
     </div>
 </div>
+
 <div *ngIf="!show">
     <div class="content" *ngFor="let publicacion of mapPublicaciones | keyvalue">
 
         <ion-item lines="none">
-            <ion-avatar routerLink="/profile" slot="start" style="width: 50px; height: 50px;">
+            <ion-avatar (click)="irPerfil(publicacion.value)" slot="start" style="width: 50px; height: 50px;">
                 <img src={{publicacion.value.imagen}}>
             </ion-avatar>
             <ion-label>
@@ -78,3 +79,7 @@
         </ion-grid>
     </div>
 </div>
+<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content pullingText="Desliza para actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
+    </ion-refresher-content>
+</ion-refresher>

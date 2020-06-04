@@ -1,8 +1,11 @@
+import { ServicesService } from './../../services/services.service';
+import { Places } from './../../models/places';
 import { Router } from '@angular/router';
 import { User } from './../../models/user';
 import { CacheUser } from './../../cache/cache-user';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-first-login',
@@ -11,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FirstLoginPage implements OnInit {
 
+
+  places: Array<Places> = new Array<Places>();
   nombre:'';
   apellidos:'';
   telefono:'';
@@ -21,10 +26,14 @@ export class FirstLoginPage implements OnInit {
   constructor(
     private router:Router,
     private authService:AuthService,
+    private _services: ServicesService,
   ) { }
 
   ngOnInit() {
+    this.getPlaces();
   }
+
+  
 
   onFirstLogin(){
     let user:User;
@@ -39,6 +48,14 @@ export class FirstLoginPage implements OnInit {
       console.log(response);
       this.router.navigate(['/menu']);
     });
+  }
+
+  getPlaces(){
+    this._services.getPlaces().subscribe(
+      data => {
+        this.places = data;
+      }
+    );
   }
 
 }

@@ -85,7 +85,7 @@ export class ChatsUnoPage implements OnInit {
       msg:'Doing some tutorial'
     }
   ];
-  plugin: Plugins;
+  
   currentUser="muski";
   newMsg='';
 
@@ -94,9 +94,10 @@ export class ChatsUnoPage implements OnInit {
   constructor(
     private popCtrl:PopoverController,
     private modalCtrl: ModalController,
-    public actionSheetController: ActionSheetController
+    public actionSheetController: ActionSheetController,
+    private plugin: Plugins,
   ) {
-    this.plugin = new Plugins(null, null, null, null, this.actionSheetController, this.modalCtrl, this.popCtrl);
+
    }
 
   ngOnInit() {

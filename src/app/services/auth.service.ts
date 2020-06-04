@@ -36,7 +36,12 @@ export class AuthService {
     return this.fireauth.signInWithEmailAndPassword(email,password);
   }
 
-  getCurrentUser(uid:string){
-    return this.firestore.doc<User>(`users/${uid}`).valueChanges();
+  getCurrentUser(uid:string):any{
+    return this.firestore.doc<User>(`users/${uid}`).get();
   }
+
+  getUsers(){
+    return this.firestore.collection<User>('users').valueChanges();
+  }
+
 }

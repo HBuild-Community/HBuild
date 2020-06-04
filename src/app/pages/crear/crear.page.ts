@@ -16,7 +16,6 @@ import { Timestamp } from '@firebase/firestore-types';
 export class CrearPage implements OnInit {
 
   images: any;
-  imagen;
 
   options: ImagePickerOptions = {
     maximumImagesCount: 1,

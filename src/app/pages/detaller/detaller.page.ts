@@ -1,3 +1,7 @@
+import { PublicacionesService } from './../../services/publicaciones.service';
+import { AuthService } from './../../services/auth.service';
+import { User } from './../../models/user';
+import { CacheUser } from './../../cache/cache-user';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavController, LoadingController, ToastController } from '@ionic/angular'
@@ -9,6 +13,7 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx'
 import { City } from 'src/app/models/city';
 import { Town } from 'src/app/models/town';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-detaller',
@@ -25,8 +30,9 @@ export class DetallerPage implements OnInit {
   ban: boolean = false;
   nombre: string;
   datos: Edit;
-  plugins: Plugins;
-  image: any;
+  user:User;
+  
+  images: any;
 
   constructor(
     private navCtrl: NavController,
@@ -35,12 +41,14 @@ export class DetallerPage implements OnInit {
     private _services: ServicesService,
     private loadingCtrl: LoadingController,
     public imagePicker: ImagePicker,
-    public file: File
-  ) {
-    this.plugins = new Plugins(loadingCtrl,
-      toastCtrl,
-      imagePicker,
-      file, null, null, null);
+    public file: File,
+    private plugins: Plugins,
+    private authService:AuthService,
+    private publicacionesService:PublicacionesService,
+    private camera:Camera,
+  ) 
+  {
+    this.user = CacheUser.user;
   }
 
   ngOnInit() {
@@ -65,8 +73,7 @@ export class DetallerPage implements OnInit {
       name: element.name
     }
 
-    if(this.datos.id == 1 || this.datos.id == 2)
-      this.selectImage();
+    
 
     if(this.datos.id == 5)
       this.getPlaces();
@@ -76,12 +83,44 @@ export class DetallerPage implements OnInit {
   }
 
   selectImage(){
-    this.plugins.PickMultipleImages(
-      img => {
-        this.image = img;
-        this.plugins.loading.dismiss();
-      }
-    );
+    let url;
+    this.publicacionesService.insertImage(this.images)
+    .then(response =>{
+      url = response;
+      this.user.imagen = url;
+      this.guardarImagen();
+    })
+  }
+
+  selectImagePortada(){
+    let url;
+    this.publicacionesService.insertImage(this.images)
+    .then(response =>{
+      url = response;
+      this.user.imagenPortada = url;
+      this.guardarImagen();
+    })
+  }
+
+
+  async addImage(opc){
+    const libraryImage = await this.openLibrary();
+    this.images = 'data:image/jpg;base64,'+libraryImage;
+    if(opc == 'imagen')
+      this.user.imagen == this.images;
+  }
+
+  async openLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      targetWidth: 1000,
+      targetHeight: 1000,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+    };
+    return await this.camera.getPicture(options);
   }
 
 
@@ -112,14 +151,24 @@ export class DetallerPage implements OnInit {
     
   }
 
-  guardar(id){
-    console.log(id, this.datos.name);
-    this.plugins.presentLoading('Guardando datos');
+  guardarImagen(){
+    this.authService.updateUser(this.user)
+    .then(response => {
+      console.log(response);
+    });
+  }
 
-    setTimeout( () => {
-      this.plugins.loading.dismiss();
-      this.plugins.presentToast('Datos Actualizados', 'success');
-      this.navCtrl.back();
-    }, 3000);
+  guardar(){
+    if(this.datos.id == 1){
+      this.selectImage();
+    }
+    else if(this.datos.id == 2){
+      this.selectImagePortada();
+    }else{
+    this.authService.updateUser(this.user)
+    .then(response => {
+      console.log(response);
+    });
+  }
   }
 }

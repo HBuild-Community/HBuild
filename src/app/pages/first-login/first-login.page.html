@@ -19,12 +19,22 @@
                     <ion-input [(ngModel)]="locacion" name="locacion" required type="text" class="ion-padding-start" placeholder="Ciudad, Estado, País"></ion-input>
                 </div>
                 <div class="ion-margin-bottom">
-                    <ion-item>
+                    <!-- <ion-item>
                         <ion-label>Actividad</ion-label>
                         <ion-select [(ngModel)]="oficio" name="oficio" value="brown" okText="Okay" cancelText="Dismiss">
                             <ion-select-option value="arquitecto">Arquitecto</ion-select-option>
                             <ion-select-option value="civil">Ing. Civil</ion-select-option>
                             <ion-select-option value="albañil">Albañil</ion-select-option>
+                        </ion-select>
+                    </ion-item> -->
+
+                    <ion-skeleton-text *ngIf="!places" animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+                    <ion-item *ngIf="places">
+                        <ion-label>Actividad</ion-label>
+                        <ion-select [(ngModel)]="oficio" name="oficio">
+                            <ion-select-option value="{{place.puesto}}" *ngFor="let place of places">
+                                {{place.puesto}}
+                            </ion-select-option>
                         </ion-select>
                     </ion-item>
                 </div>

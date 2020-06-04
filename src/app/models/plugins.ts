@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { LoadingController, ToastController, ActionSheetController, ModalController, PopoverController } from '@ionic/angular'
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/file/ngx'
@@ -6,6 +7,7 @@ import { PublicacionEditarPage } from '../pages/publicacion-editar/publicacion-e
 import { Tab1Page } from '../pages/tab1/tab1.page';
 import { PopChatsUnoReportarComponent } from '../components/pop-chats-uno-reportar/pop-chats-uno-reportar.component';
 
+@Injectable()
 export class Plugins {
 
 

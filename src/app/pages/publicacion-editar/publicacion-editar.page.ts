@@ -17,10 +17,6 @@ export class PublicacionEditarPage implements OnInit {
   constructor(private modalCtrl: ModalController,
     public imagePicker: ImagePicker,
     public file: File) {
-    this.plugins = new Plugins(null,
-      null,
-      imagePicker,
-      file, null, null, null);
   }
 
   ngOnInit() {

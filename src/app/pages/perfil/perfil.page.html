@@ -97,3 +97,7 @@
         </ion-slides>
     </div>
 </div>
+<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content pullingText="Desliza para actualizar" refreshingSpinner="circles" refreshingText="Actualizando...">
+    </ion-refresher-content>
+</ion-refresher>

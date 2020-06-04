@@ -1,5 +1,8 @@
+import { PublicacionPageModule } from './pages/publicacion/publicacion.module';
+import { PublicacionPage } from './pages/publicacion/publicacion.page';
+import { InicioPage } from './pages/inicio/inicio.page';
+import { Plugins } from './models/plugins';
 import { Toast } from './models/toast';
-
 
 import { environment } from './../environments/environment.prod';
 import { NgModule } from '@angular/core';
@@ -31,6 +34,8 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import {AutosizeModule} from 'ngx-autosize';
 
+import { PipesModule } from './pipes/pipes.module';
+
 @NgModule({
   declarations: [AppComponent,MenuComponent],
   entryComponents: [],
@@ -45,11 +50,15 @@ import {AutosizeModule} from 'ngx-autosize';
     AngularFirestoreModule,
     HttpClientModule,
     AutosizeModule,
+    PublicacionPageModule,
+    PipesModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Toast,
+    Plugins,
+    PublicacionPage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImagePicker,
     File,

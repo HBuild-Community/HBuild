@@ -1,3 +1,5 @@
+import { CacheUser } from './../../cache/cache-user';
+import { User } from './../../models/user';
 import { AppComponent } from './../../app.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Router}from '@angular/router';
@@ -16,12 +18,16 @@ export class MenuComponent implements OnInit {
   @ViewChild(IonMenu, {static: false}) ionMenu: IonMenu;
 
   menu: Observable<Menu[]>;
+  user:User;
 
   constructor(
     private router:Router,
      private dataService: ServicesService,
      private menuController:MenuController,
-     ) { }
+     ) 
+     {
+      this.user = CacheUser.user;
+    }
 
   ngOnInit() {
     console.log(this.ionMenu);

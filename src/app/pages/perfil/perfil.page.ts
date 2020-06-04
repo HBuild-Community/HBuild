@@ -1,3 +1,4 @@
+import { ProfileService } from './../../services/profile.service';
 import { CacheUser } from './../../cache/cache-user';
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
@@ -18,16 +19,21 @@ export class PerfilPage implements OnInit {
 
   slideOpts: {};
 
-  constructor() {
-    this.user = CacheUser.user;
+  constructor(
+    private profileService:ProfileService,
+  ) {
+    
    }
 
   ngOnInit() {
 
     if(this.have == "true"){
       console.log("Es true");
+      this.user = CacheUser.user;
     }else{
       console.log("Es false");
+      this.profileService.$getObjectSource
+      .subscribe(user => this.user = user);
     }
 
     setTimeout( () => {
@@ -46,6 +52,13 @@ export class PerfilPage implements OnInit {
       zoom: false,
       grabCursor: true
     }
+  }
+
+  refresh(event){
+    this.user = CacheUser.user;
+    setTimeout(()=>{
+      event.target.complete();
+    },2000);
   }
 
 }
