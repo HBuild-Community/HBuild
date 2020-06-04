@@ -84,6 +84,7 @@ export class DetallerPage implements OnInit {
 
   selectImage(){
     let url;
+    this.plugins.presentLoading('Actualizando');
     this.publicacionesService.insertImage(this.images)
     .then(response =>{
       url = response;
@@ -94,6 +95,7 @@ export class DetallerPage implements OnInit {
 
   selectImagePortada(){
     let url;
+    this.plugins.presentLoading('Actualizando');
     this.publicacionesService.insertImage(this.images)
     .then(response =>{
       url = response;
@@ -108,6 +110,8 @@ export class DetallerPage implements OnInit {
     this.images = 'data:image/jpg;base64,'+libraryImage;
     if(opc == 'imagen')
       this.user.imagen == this.images;
+    else
+      this.user.imagenPortada == this.images;
   }
 
   async openLibrary() {
@@ -154,7 +158,9 @@ export class DetallerPage implements OnInit {
   guardarImagen(){
     this.authService.updateUser(this.user)
     .then(response => {
-      console.log(response);
+      this.plugins.loading.dismiss();
+        this.plugins.presentToast('Imagen actualizada correctamente','success');
+        this.navCtrl.back();
     });
   }
 
@@ -165,9 +171,12 @@ export class DetallerPage implements OnInit {
     else if(this.datos.id == 2){
       this.selectImagePortada();
     }else{
+      this.plugins.presentLoading('Actualizando');
     this.authService.updateUser(this.user)
-    .then(response => {
-      console.log(response);
+    .then(() => {
+      this.plugins.loading.dismiss();
+        this.plugins.presentToast('Datos actualizados correctamente','success');
+        this.navCtrl.back();
     });
   }
   }

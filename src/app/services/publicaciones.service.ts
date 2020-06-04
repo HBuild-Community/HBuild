@@ -97,4 +97,8 @@ export class PublicacionesService {
     return this.firestore.doc(`publicacion/${uidPub}`).collection('comentarios').doc(uidCom).set(comentario);
   }
 
+  misPublicaciones(uid){
+    return this.firestore.collection<Publicaciones>('publicacion').snapshotChanges();
+  }
+
 }

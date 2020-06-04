@@ -9,7 +9,10 @@
     </ion-item>
 </div>
 <div *ngIf="!show">
-    <ion-item *ngFor="let user of users" (click)="irPerfil(user)" lines="full" detail>
+    <ion-header>
+        <ion-searchbar animated mode="ios" (ionChange)="buscar($event)"></ion-searchbar>
+    </ion-header>
+    <ion-item *ngFor="let user of users | filtro: textoBuscar:'nombre'" (click)="irPerfil(user)" lines="full" detail>
         <ion-avatar slot="start">
             <img src="{{user.imagen}}">
         </ion-avatar>

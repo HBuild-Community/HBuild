@@ -71,13 +71,7 @@ export class InicioPage implements OnInit {
   }
 
   ngOnInit() {
-    this.mapPublicaciones.clear();
-    console.log('O entra aca?');
-    /* this.publicacionesService.getPublicaciones(CacheUser.user)
-    .subscribe(result=>{
-      console.log(result);
-    });
- */
+
   }
 
   openAlert(){

@@ -1,3 +1,5 @@
+import { CacheUser } from './../../cache/cache-user';
+import { User } from './../../models/user';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CuentaPage implements OnInit {
 
-  constructor() { }
+  user:User;
+
+  constructor() 
+  {
+    this.user = CacheUser.user;
+  }
 
   ngOnInit() {
   }

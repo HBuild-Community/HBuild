@@ -44,4 +44,12 @@ export class PersonasPage implements OnInit {
     this.router.navigate(['profile']);
   }
 
+  textoBuscar = '';
+
+  buscar( event ){
+    this.textoBuscar = event.detail.value;
+    console.log('Se esta buscando en el filtro:');
+    console.log(event.detail.value);
+  }
+
 }

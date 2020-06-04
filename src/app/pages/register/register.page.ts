@@ -1,3 +1,4 @@
+import { Plugins } from './../../models/plugins';
 import { Toast } from '../../models/toast';
 import { User } from './../../models/user';
 import { AuthService } from './../../services/auth.service';
@@ -34,6 +35,7 @@ export class RegisterPage implements OnInit {
     private router:Router,
     private alerts:Toast,
     private menuController:MenuController,
+    private plugins:Plugins,
   )
   {
     this.menuController.enable(false);
@@ -80,13 +82,17 @@ export class RegisterPage implements OnInit {
     let correo = this.registerForm.value.correo;
     let isEmailAvailable = await this.authService.isEmailAvailable(correo);
     if(!isEmailAvailable){
-      this.alerts.toast('Error','Este correo electronico ya está en uso');
+      this.plugins.presentToast('Este correo electrónico ya está en uso','danger');
       return;
     }
     this.onRegister();
   }
 
   onRegister(){
+    if(this.registerForm.value.password != this.registerForm.value.cpassword){
+      this.plugins.presentToast('Las contraseñas no coinciden','danger');
+      return;
+    }
     let user: User = {
       correo: this.registerForm.value.correo,
       password: this.registerForm.value.password,
@@ -103,7 +109,7 @@ export class RegisterPage implements OnInit {
       this.authService.addUser(user)
       .then(result =>{
         console.log(result);
-        this.alerts.toast('Exito','Usuario registrado con éxito');
+        this.plugins.presentToast('Registrado con exito','success');
         this.router.navigate(['/home']);
       });
     });

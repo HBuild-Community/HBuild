@@ -1,3 +1,5 @@
+import { NavController } from '@ionic/angular';
+import { Plugins } from './../../models/plugins';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Toast } from './../../models/toast';
 import { CacheUser } from './../../cache/cache-user';
@@ -7,6 +9,7 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 import { File } from '@ionic-native/file/ngx'
 import { Publicaciones } from 'src/app/models/publicaciones';
 import { Timestamp } from '@firebase/firestore-types';
+
 
 @Component({
   selector: 'app-crear',
@@ -29,6 +32,8 @@ export class CrearPage implements OnInit {
     private publicacionesService:PublicacionesService,
     private alert:Toast,
     private camera:Camera,
+    private plugins:Plugins,
+    private navCtrl:NavController,
   ) { }
 
   ngOnInit() {
@@ -59,6 +64,7 @@ export class CrearPage implements OnInit {
     let pubUid;
     let url;
     let date = new Date();
+    this.plugins.presentLoading('Creando publicación');
     if(this.images != undefined){
       this.insertarConImagen(url,date);
     }
@@ -86,7 +92,9 @@ export class CrearPage implements OnInit {
       .insertPublicacion(publicacion)
       .then(response => {
         console.log(response);
-        this.alert.toast('Exito','Publicación creada correctamente');
+        this.plugins.loading.dismiss();
+        this.plugins.presentToast('Publicación creada correctamente','success');
+        this.navCtrl.back();
       });
     });
   }
@@ -103,7 +111,9 @@ export class CrearPage implements OnInit {
       .insertPublicacion(publicacion)
       .then(response => {
         console.log(response);
-        this.alert.toast('Exito','Publicación creada correctamente');
+        this.plugins.loading.dismiss();
+        this.plugins.presentToast('Publicación creada correctamente','success');
+        this.navCtrl.back();
       });
   }
 

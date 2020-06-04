@@ -1,3 +1,4 @@
+import { Plugins } from './../../models/plugins';
 import { ServicesService } from './../../services/services.service';
 import { Places } from './../../models/places';
 import { Router } from '@angular/router';
@@ -27,6 +28,7 @@ export class FirstLoginPage implements OnInit {
     private router:Router,
     private authService:AuthService,
     private _services: ServicesService,
+    private plugins:Plugins,
   ) { }
 
   ngOnInit() {
@@ -45,8 +47,11 @@ export class FirstLoginPage implements OnInit {
     user.oficio = this.oficio;
     this.authService.updateUser(user)
     .then(response => {
-      console.log(response);
+      this.plugins.presentToast('Ha iniciado sesión con exito','success');
       this.router.navigate(['/menu']);
+    })
+    .catch(error =>{
+      this.plugins.presentToast('Ha ocurrido un error','danger');
     });
   }
 

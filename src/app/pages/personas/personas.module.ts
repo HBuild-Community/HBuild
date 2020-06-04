@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { PipesModule } from './../../pipes/pipes.module';
+import { NgModule, Pipe } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,6 +9,8 @@ import { PersonasPageRoutingModule } from './personas-routing.module';
 
 import { PersonasPage } from './personas.page';
 
+
+
 @NgModule({
   exports: [
     PersonasPage
@@ -16,7 +19,8 @@ import { PersonasPage } from './personas.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PersonasPageRoutingModule
+    PersonasPageRoutingModule,
+    PipesModule
   ],
   declarations: [PersonasPage]
 })

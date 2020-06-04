@@ -36,6 +36,8 @@ import {AutosizeModule} from 'ngx-autosize';
 
 import { PipesModule } from './pipes/pipes.module';
 
+
+
 @NgModule({
   declarations: [AppComponent,MenuComponent],
   entryComponents: [],
@@ -51,7 +53,7 @@ import { PipesModule } from './pipes/pipes.module';
     HttpClientModule,
     AutosizeModule,
     PublicacionPageModule,
-    PipesModule
+    PipesModule,
   ],
   providers: [
     StatusBar,
@@ -62,7 +64,7 @@ import { PipesModule } from './pipes/pipes.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ImagePicker,
     File,
-    Camera
+    Camera,
   ],
   bootstrap: [AppComponent]
 })

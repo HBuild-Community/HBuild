@@ -1,3 +1,4 @@
+import { Plugins } from './../../models/plugins';
 import { CacheUser } from './../../cache/cache-user';
 import { Toast } from './../../models/toast';
 import { AuthService } from './../../services/auth.service';
@@ -5,7 +6,6 @@ import { FormBuilder,Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {MenuController} from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -24,6 +24,7 @@ export class LoginPage implements OnInit {
     private router:Router,
     private menuController:MenuController,
     private alerts:Toast,
+    private plugins:Plugins,
   ) 
   { 
     this.menuController.enable(false);
@@ -66,15 +67,13 @@ export class LoginPage implements OnInit {
         console.log(CacheUser.user);
         if (CacheUser.user.apellidos != undefined){
           this.router.navigate(['/menu']); 
-          this.alerts.toast('Exito','Ha iniciado sesión con exito');
+          this.plugins.presentToast('Ha iniciado sesión con exito','success');
         } 
         else this.router.navigate(['/first-login']);
       });
     })
     .catch(error =>{
-
-      console.log(error);
-
+      this.plugins.presentToast('Ha ocurrido un error','danger');
     });
   }
 }
