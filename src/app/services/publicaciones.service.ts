@@ -17,7 +17,6 @@ export class PublicacionesService {
   publicaciones:Array<Publicaciones>;
 
   constructor(
-    public afa: AngularFireAuth,
     public firestore: AngularFirestore,
     private fireStorage:AngularFireStorage,
   ) { }

@@ -1,7 +1,10 @@
+import { NchatsService } from './../../services/nchats.service';
+import { Router } from '@angular/router';
 import { ProfileService } from './../../services/profile.service';
 import { CacheUser } from './../../cache/cache-user';
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
+
 
 @Component({
   selector: 'app-perfil',
@@ -21,6 +24,8 @@ export class PerfilPage implements OnInit {
 
   constructor(
     private profileService:ProfileService,
+    private router:Router,
+    private chatsService:NchatsService,
   ) {
     
    }
@@ -59,6 +64,11 @@ export class PerfilPage implements OnInit {
     setTimeout(()=>{
       event.target.complete();
     },2000);
+  }
+
+  irChat(user:User){
+    this.chatsService.sendObjectData(user);
+    this.router.navigate(['chats-uno']);
   }
 
 }

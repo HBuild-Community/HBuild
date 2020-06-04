@@ -1,5 +1,5 @@
 <ion-toolbar class="ion-padding-top" mode="ios">
-    <ion-searchbar placeholder="Buscar" (ionChange)="onSearchChange($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Buscar"></ion-searchbar>
 </ion-toolbar>
 <ion-content [fullscreen]="true">
     <ion-list *ngIf="show">
@@ -12,15 +12,15 @@
         </ion-item>
     </ion-list>
     <ion-list *ngIf="!show">
-        <ion-item class="messages" lines="none" routerLink="/chats-uno" *ngFor="let i of [1,1,1,1,1,1,1,1,1,1,1,1,1]">
+        <ion-item class="messages" lines="none" routerLink="/chats-uno" *ngFor="let chat of mapChats | keyvalue">
             <ion-avatar slot="start">
-                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                <img src={{chat.value.imagen}}>
             </ion-avatar>
             <ion-label>
-                <p class="name">Alejandro Salazar</p>
-                <p>Hola! te interesa ganar dinero con 2 sencillas aplicaciones</p>
+                <p class="name">{{chat.value.nombre}} {{chat.value.apellidos}}</p>
+                <p></p>
             </ion-label>
-            <ion-note mode="md" slot="end">15/05/20</ion-note>
+            <ion-note mode="md" slot="end"></ion-note>
         </ion-item>
     </ion-list>
 </ion-content>

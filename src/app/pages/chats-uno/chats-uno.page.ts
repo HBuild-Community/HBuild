@@ -1,8 +1,12 @@
+import { CacheUser } from './../../cache/cache-user';
+import { User } from './../../models/user';
+import { NchatsService } from './../../services/nchats.service';
 import { PopChatsUnoReportarComponent } from './../../components/pop-chats-uno-reportar/pop-chats-uno-reportar.component';
 import { PopChatsUnoComponent } from './../../components/pop-chats-uno/pop-chats-uno.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, PopoverController, ModalController, ActionSheetController } from '@ionic/angular';
 import { Plugins } from 'src/app/models/plugins';
+
 
 
 @Component({
@@ -86,19 +90,54 @@ export class ChatsUnoPage implements OnInit {
     }
   ];
   
-  currentUser="muski";
+  currentUser;
   newMsg='';
 
   @ViewChild(IonContent,null) content:IonContent
+
+  userOtro:User;
+  user:User;
+  mensajes;
+  nuevoMensaje;
 
   constructor(
     private popCtrl:PopoverController,
     private modalCtrl: ModalController,
     public actionSheetController: ActionSheetController,
-    private plugin: Plugins,
-  ) {
+    public plugin: Plugins,
+    private chatService:NchatsService,
+  ) 
+  {
+    this.user = CacheUser.user;
+    this.currentUser = this.user.uid;
+    this.obtenerInfoUsuario();
+    this.chatService.getMessages(this.user.uid,this.userOtro.uid)
+    .subscribe(response => {
+      console.log(response);
+      this.mensajes = response;
+    });
+  }
 
-   }
+  obtenerInfoUsuario(){
+    this.chatService.$getObjectSource
+    .subscribe(user =>{
+      this.userOtro = user
+      console.log(user);
+    });
+  }
+
+  enviarMensaje(){
+    let date = new Date();
+    let mensaje = {
+      uid:this.user.uid,
+      mensaje:this.nuevoMensaje,
+      creado:date
+    }
+    this.chatService.enviarMensaje(mensaje,this.user.uid,this.userOtro.uid)
+    .then(response => {
+      console.log(response);
+    });
+  }
 
   ngOnInit() {
     this.content.scrollToBottom();

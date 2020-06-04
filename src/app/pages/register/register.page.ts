@@ -87,6 +87,7 @@ export class RegisterPage implements OnInit {
     }
     this.onRegister();
   }
+  
 
   onRegister(){
     if(this.registerForm.value.password != this.registerForm.value.cpassword){

@@ -4,10 +4,10 @@
             <ion-back-button defaultHref="menu/tab3" text=""></ion-back-button>
         </ion-buttons>
         <ion-avatar slot="start" class="avatar-chat">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            <img src={{userOtro.imagen}}>
         </ion-avatar>
         <ion-label class="name-chat" slot="start">
-            <p>Alejandro Salazar</p>
+            <p>{{userOtro.nombre}} {{userOtro.apellidos}}</p>
         </ion-label>
         <ion-buttons slot="end" (click)="plugin.presentActionSheet(false)">
             <ion-button>
@@ -19,17 +19,17 @@
 
 <ion-content #scrollElement [fullscreen]="true">
     <ion-grid>
-        <ion-row *ngFor="let message of messages">
-            <ion-col size="9" *ngIf="currentUser !== message.user" class="message other-message">
+        <ion-row *ngFor="let mensaje of mensajes">
+            <ion-col size="9" *ngIf="currentUser !== mensaje.uid" class="message other-message">
                 <!--                 <b>{{message.user}}</b><br> -->
-                <span>{{message.msg}}</span>
-                <div class="time" style="color:black !important" text-right><br> {{message.createdAt | date:'short'}}
+                <span>{{mensaje.mensaje}}</span>
+                <div class="time" style="color:black !important" text-right><br> {{mensaje.creado.toDate() | date:'dd/MM/yyyy'}}
                 </div>
             </ion-col>
-            <ion-col offset="3" size="9" *ngIf="currentUser === message.user" class="message my-message">
+            <ion-col offset="3" size="9" *ngIf="currentUser === mensaje.uid" class="message my-message">
                 <!-- <b>{{message.user}}</b><br> -->
-                <span>{{message.msg}}</span>
-                <div class="time" text-right><br> {{message.createdAt | date:'short'}}
+                <span>{{mensaje.mensaje}}</span>
+                <div class="time" text-right><br> {{mensaje.creado.toDate() | date:'dd/MM/yyyy'}}
                 </div>
             </ion-col>
         </ion-row>
@@ -39,12 +39,12 @@
 <ion-footer>
     <ion-toolbar>
         <ion-item lines="none">
-            <ion-input type="text" placeholder="Aa"></ion-input>
+            <ion-input [(ngModel)]="nuevoMensaje" type="text" placeholder="Aa"></ion-input>
             <ion-buttons slot="end">
-                <ion-button color="primary">
+                <ion-button (click)="enviarMensaje()" color="primary">
                     <ion-icon slot="icon-only" name="send"></ion-icon>
                 </ion-button>
             </ion-buttons>
-           </ion-item>
+        </ion-item>
     </ion-toolbar>
 </ion-footer>
