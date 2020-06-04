@@ -12,7 +12,7 @@
         </ion-item>
     </ion-list>
     <ion-list *ngIf="!show">
-        <ion-item class="messages" lines="none" routerLink="/chats-uno" *ngFor="let chat of mapChats | keyvalue">
+        <ion-item (click)="irChat(chat.value)" class="messages" lines="none" routerLink="/chats-uno" *ngFor="let chat of mapChats | keyvalue">
             <ion-avatar slot="start">
                 <img src={{chat.value.imagen}}>
             </ion-avatar>

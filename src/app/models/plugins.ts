@@ -1,3 +1,4 @@
+import { NchatsService } from './../services/nchats.service';
 import { Injectable } from '@angular/core';
 import { LoadingController, ToastController, ActionSheetController, ModalController, PopoverController } from '@ionic/angular'
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
@@ -26,10 +27,11 @@ export class Plugins {
     public file: File,
     public actionSheetController: ActionSheetController,
     public modalCtrl: ModalController,
-    public popCtrl: PopoverController
+    public popCtrl: PopoverController,
+    private chatsService:NchatsService,
   ) { }
 
-  async presentActionSheet(options) {
+  async presentActionSheet(options,id) {
 
     var op;
 
@@ -64,6 +66,10 @@ export class Plugins {
           role: 'destructive',
           icon: 'trash',
           handler: () => {
+            this.chatsService.borrarConversacion(id.uidPersonal,id.uidOtro)
+            .then(response => {
+              console.log(response);
+            });
             console.log('Delete clicked');
           }
         }

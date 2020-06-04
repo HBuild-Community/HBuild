@@ -1,3 +1,4 @@
+import { Mensajes } from './../../models/mensajes';
 import { CacheUser } from './../../cache/cache-user';
 import { User } from './../../models/user';
 import { NchatsService } from './../../services/nchats.service';
@@ -7,8 +8,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent, PopoverController, ModalController, ActionSheetController } from '@ionic/angular';
 import { Plugins } from 'src/app/models/plugins';
 
-
-
 @Component({
   selector: 'app-chats-uno',
   templateUrl: './chats-uno.page.html',
@@ -16,82 +15,8 @@ import { Plugins } from 'src/app/models/plugins';
 })
 export class ChatsUnoPage implements OnInit {
 
-
-  messages = [
-    {
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Hey whats up mate?'
-    },
-    {
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'Working hehehe'
-    },{
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Doing some tutorial'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'fili',
-      createdAt: 1554090856000,
-      msg:'JAJAJAJ'
-    },{
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Doing some tutorial'
-    },{
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Doing some tutorial'
-    },{
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Doing some tutorial'
-    },{
-      user: 'muski',
-      createdAt: 1554090856000,
-      msg:'Doing some tutorial'
-    }
-  ];
   
   currentUser;
-  newMsg='';
 
   @ViewChild(IonContent,null) content:IonContent
 
@@ -99,6 +24,7 @@ export class ChatsUnoPage implements OnInit {
   user:User;
   mensajes;
   nuevoMensaje;
+  mensajesSort:Mensajes;
 
   constructor(
     private popCtrl:PopoverController,
@@ -113,7 +39,12 @@ export class ChatsUnoPage implements OnInit {
     this.obtenerInfoUsuario();
     this.chatService.getMessages(this.user.uid,this.userOtro.uid)
     .subscribe(response => {
-      console.log(response);
+
+      response.sort(function(x, y){
+        return x.creado - y.creado;
+    });
+    
+    console.log(response);
       this.mensajes = response;
     });
   }
@@ -126,6 +57,8 @@ export class ChatsUnoPage implements OnInit {
     });
   }
 
+  
+
   enviarMensaje(){
     let date = new Date();
     let mensaje = {
@@ -135,27 +68,22 @@ export class ChatsUnoPage implements OnInit {
     }
     this.chatService.enviarMensaje(mensaje,this.user.uid,this.userOtro.uid)
     .then(response => {
-      console.log(response);
+      this.nuevoMensaje='';
     });
+  }
+
+  borrarConversacion(user,userOtro){
+    let id = {
+      uidPersonal:user,
+      uidOtro:userOtro,
+    }
+    this.plugin.presentActionSheet(false,id);
   }
 
   ngOnInit() {
     this.content.scrollToBottom();
   }
 
-  sendMessage(){
-    this.messages.push({
-      user:this.currentUser,
-      createdAt: new Date().getTime(),
-      msg:this.newMsg,
-    });
-
-    this.newMsg = '';
-
-    setTimeout(() => {
-      this.content.scrollToBottom(200);
-    });
-  }
 
   async mostrarPop(evento) {
     const popover = await this.popCtrl.create({
