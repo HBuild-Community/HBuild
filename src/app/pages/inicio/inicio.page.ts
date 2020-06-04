@@ -74,9 +74,9 @@ export class InicioPage implements OnInit {
 
   }
 
-  openAlert(){
+  /* openAlert(){
     this.plugins.presentActionSheet(true);
-  }
+  } */
 
   openComment(publicacion){
     this.plugins.openModal(PublicacionPage,publicacion);
